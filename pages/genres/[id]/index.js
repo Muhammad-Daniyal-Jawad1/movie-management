@@ -1,15 +1,15 @@
 import Link from 'next/link';
 import { getGenreById, getMoviesByGenreId } from '../../../utils/dataUtils';
 
-export async function getStaticPaths() {
-  return { paths: [], fallback: 'blocking' };
-}
-
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const genre = getGenreById(params.id);
   const movies = getMoviesByGenreId(params.id);
+
   if (!genre) return { notFound: true };
-  return { props: { genre, movies }, revalidate: 10 };
+
+  return {
+    props: { genre, movies },
+  };
 }
 
 export default function GenreDetails({ genre, movies }) {
