@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 
 export default function Help() {
-  const { slug } = useRouter().query;
-  return <div>{slug ? `Help: ${slug.join(' / ')}` : 'Help Home'}</div>;
+  return(
+    <h1>This is Home.</h1>
+  )
 }

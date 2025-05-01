@@ -43,3 +43,21 @@ export function getDirectorById(id) {
 export function getMoviesByDirectorId(directorId) {
   return getAllMovies().filter(movie => movie.directorId === directorId);
 }
+
+export function getDirectorsWithMovies() {
+  const data = getAllData(); 
+
+  return data.directors.map(director => {
+    const directedMovies = data.movies.filter(movie => movie.directorId === director.id);
+    return {
+      name: director.name,
+      biography: director.biography,
+      movies: directedMovies.map(movie => ({
+        id: movie.id,
+        title: movie.title,
+        releaseYear: movie.releaseYear,
+        rating: movie.rating
+      }))
+    };
+  });
+}

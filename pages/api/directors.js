@@ -1,5 +1,5 @@
-import { getDirectors } from '../../utils/dataUtils';
+import {  getDirectorsWithMovies } from '../../utils/dataUtils';
 
 export default function handler(req, res) {
-  res.status(200).json(getDirectors());
+  res.status(200).json(getDirectorsWithMovies());
 }

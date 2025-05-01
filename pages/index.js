@@ -1,9 +1,11 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { getAllMovies } from '../utils/dataUtils';
 
 export async function getStaticProps() {
   const movies = getAllMovies().slice(0, 3);
-  return { props: { movies }, revalidate: 10 };
+  return { props: { movies },
+  revalidate: 10 };
 }
 
 export default function Home({ movies }) {
@@ -11,7 +13,11 @@ export default function Home({ movies }) {
   return (
     <div>
       <h1>Trending Movies</h1>
-      {movies.map(movie => <div key={movie.id}>{movie.title}</div>)}
+      {movies.map(movie => (
+        <div key={movie.id}>
+          <Link href={`/movies/${movie.id}`}>{movie.title}</Link>
+        </div>
+      ))}
       <button onClick={() => router.push('/genres')}>Browse Genres</button>
     </div>
   );
