@@ -1,4 +1,5 @@
 import useSWR from 'swr';
+import Link from 'next/link';
 
 const fetcher = url => fetch(url).then(res => res.json());
 
@@ -19,7 +20,10 @@ export default function Directors() {
           <ul>
             {director.movies.map(movie => (
               <li key={movie.id}>
-                {movie.title} ({movie.releaseYear}) - Rating: {movie.rating}
+                <Link href={`/movies/${movie.id}`}>
+                  {movie.title}
+                </Link>
+                {' '}({movie.releaseYear}) - Rating: {movie.rating}
               </li>
             ))}
           </ul>
