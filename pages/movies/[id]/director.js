@@ -1,7 +1,6 @@
-import { getAllMovies, getDirectorById } from '../../../utils/dataUtils';
-
 export async function getStaticPaths() {
-  const movies = getAllMovies();
+  const res = await fetch('http://localhost:3000/api/movies');
+  const movies = await res.json();
 
   const paths = movies.map((movie) => ({
     params: { id: movie.id }
@@ -15,23 +14,38 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const movieId = params.id;
-  const movies = getAllMovies();
-  const movie = movies.find((m) => m.id === movieId);
 
-  if (!movie) {
+  const movieRes = await fetch(`http://localhost:3000/api/movies/${movieId}`);
+  if (!movieRes.ok) {
     return {
       notFound: true,
     };
   }
 
-  const director = getDirectorById(movie.directorId);
+  const rawMovie = await movieRes.json();
+
+  // Normalize keys if needed
+  const movie = {
+    id: rawMovie.id,
+    title: rawMovie.title,
+    directorId: rawMovie.director_id,
+  };
+
+  const directorRes = await fetch(`http://localhost:3000/api/directors/${movie.directorId}`);
+  if (!directorRes.ok) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const director = await directorRes.json();
 
   return {
     props: {
       director,
       movieTitle: movie.title,
     },
-    revalidate: 10, 
+    revalidate: 10,
   };
 }
 
