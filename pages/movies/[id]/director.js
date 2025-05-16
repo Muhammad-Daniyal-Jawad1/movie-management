@@ -24,7 +24,6 @@ export async function getStaticProps({ params }) {
 
   const rawMovie = await movieRes.json();
 
-  // Normalize keys if needed
   const movie = {
     id: rawMovie.id,
     title: rawMovie.title,

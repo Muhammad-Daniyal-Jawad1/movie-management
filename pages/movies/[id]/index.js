@@ -16,8 +16,6 @@ export async function getStaticProps({ params }) {
   if (!movieRes.ok) return { notFound: true };
 
   const rawMovie = await movieRes.json();
-
-  // Normalize keys to camelCase
   const movie = {
     id: rawMovie.id,
     title: rawMovie.title,
